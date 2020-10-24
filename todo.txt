@@ -1,10 +1,10 @@
 To-do:
 [x] Get queue from URL path
-[ ] Get key from header value
-[ ] Validate queue on request
-[ ] Validate queue on retrieve
-[ ] Validate key on request
-[ ] Validate key on retrieve
+[x] Get key from header value
+[x] Validate queue on request
+[x] Validate key on request
+[x] Validate queue on retrieve
+[x] Validate key on retrieve
 [ ] Add queue from command line
 [ ] Add ket from command line
 
