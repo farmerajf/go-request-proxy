@@ -5,6 +5,7 @@ To-do:
 [x] Validate key on request
 [x] Validate queue on retrieve
 [x] Validate key on retrieve
+[ ] Add commnd line parameter handler
+[ ] Add client
 [ ] Add queue from command line
-[ ] Add ket from command line
-
+[ ] Add key from command line

@@ -25,7 +25,7 @@ func main() {
 
 	http.HandleFunc("/request", handleRequest)
 	http.HandleFunc("/retrieve", handleRetrieve)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServeTLS(":8080", "cert.crt", "cert.key", nil)
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
