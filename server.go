@@ -81,7 +81,6 @@ func handleRetrieve(w http.ResponseWriter, r *http.Request) {
 	}
 	if len(queue) < 1 {
 		w.WriteHeader(http.StatusNotFound)
-		logger.log("Attempt to retrieve from empty queue " + queueName)
 		return
 	}
 

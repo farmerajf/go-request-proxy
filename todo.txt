@@ -13,3 +13,4 @@ To-do:
 [ ] Remove key from command line
 [ ] Add docker build
 [ ] Deploy to cloud
+[ ] Make help look pretty

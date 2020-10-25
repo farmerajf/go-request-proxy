@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -66,7 +67,7 @@ func mapConfig(data []byte) (*config, error) {
 	return &config, nil
 }
 
-func createQueue(name string) (string, error) {
+func addQueue(name string) (string, error) {
 	config, err := loadConfig()
 	if err != nil {
 		return "", err
@@ -83,16 +84,37 @@ func createQueue(name string) (string, error) {
 	return queueName, nil
 }
 
-func createKey(queueName string) (string, error) {
+func removeQueue(queueName string) (string, error) {
 	config, err := loadConfig()
 	if err != nil {
 		return "", err
 	}
 
+	delete(config.Queues, queueName)
+
+	err = writeConfigFile(config)
+	if err != nil {
+		return "", err
+	}
+
+	return queueName, nil
+}
+
+func addKey(queueName string) (string, error) {
+	config, err := loadConfig()
+	if err != nil {
+		return "", err
+	}
+
+	queue, exists := config.Queues[queueName]
+	if !exists {
+		return "", errors.New("invalid queue")
+	}
 	key := generateString()
-	keys := config.Queues[queueName].Keys
+	keys := queue.Keys
 	keys = append(keys, key)
-	config.Queues[queueName].Keys = keys
+	//config.Queues[queueName].Keys = keys
+	queue.Keys = keys
 
 	err = writeConfigFile(config)
 	if err != nil {
@@ -100,6 +122,30 @@ func createKey(queueName string) (string, error) {
 	}
 
 	return key, nil
+}
+
+func removeKey(queueName string, key string) (string, error) {
+	config, err := loadConfig()
+	if err != nil {
+		return "", err
+	}
+
+	oldKeys := config.Queues[queueName].Keys
+	newKeys := []string{}
+	for _, currentKey := range oldKeys {
+		if key != currentKey {
+			newKeys = append(newKeys, currentKey)
+		}
+	}
+	config.Queues[queueName].Keys = newKeys
+
+	err = writeConfigFile(config)
+	if err != nil {
+		return "", err
+	}
+
+	return key, nil
+
 }
 
 func generateString() string {
